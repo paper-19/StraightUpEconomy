@@ -1,0 +1,26 @@
+name: StraightUpEconomy
+version: ${project.version}
+main: com.wasted_ticks.straightupeconomy.StraightUpEconomy
+api-version: 1.13
+authors: [wasted_ticks]
+depend: [Vault]
+commands:
+  balance:
+    description: test1
+    usage: /<command>
+  deposit:
+    description: test2
+    usage: /<command> [amount]
+  withdraw:
+    description: test3
+    usage: /<command> [amount]
+permissions:
+  economy.balance:
+    description: view balance
+    default: op
+  economy.withdraw:
+    description: withdraw gold
+    default: op
+  economy.deposit:
+    description: deposit gold
+    default: op
