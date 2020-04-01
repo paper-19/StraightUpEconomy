@@ -2,6 +2,7 @@ package com.wasted_ticks.straightupeconomy;
 
 import com.wasted_ticks.straightupeconomy.commands.BalanceCommand;
 import com.wasted_ticks.straightupeconomy.commands.DepositCommand;
+import com.wasted_ticks.straightupeconomy.commands.TransferCommand;
 import com.wasted_ticks.straightupeconomy.commands.WithdrawCommand;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -42,6 +43,7 @@ public final class StraightUpEconomy extends JavaPlugin {
         this.getCommand("balance").setExecutor(new BalanceCommand(this));
         this.getCommand("deposit").setExecutor(new DepositCommand(this));
         this.getCommand("withdraw").setExecutor(new WithdrawCommand(this));
+        this.getCommand("transfer").setExecutor(new TransferCommand(this));
 
         this.getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
 

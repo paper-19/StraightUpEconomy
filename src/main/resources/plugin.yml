@@ -15,3 +15,6 @@ commands:
   withdraw:
     description: withdraw gold
     usage: /<command> [amount]
+  transfer:
+    description: transfer gold to another account
+    usage: /<command> [player] [amount]

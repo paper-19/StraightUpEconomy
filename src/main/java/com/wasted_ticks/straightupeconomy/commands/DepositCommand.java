@@ -39,7 +39,7 @@ public class DepositCommand implements CommandExecutor {
                         this.removeItems(player.getInventory(),Material.GOLD_INGOT, amount);
                         plugin.getEconomy().depositPlayer(player, (double) amount);
                         double balance = plugin.getEconomy().getBalance(player);
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Your current balance is: $" + balance);
+                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Your current balance is: " + balance + " ꜷ");
                     } else {
                         player.sendMessage(ChatColor.LIGHT_PURPLE + "You must have sufficient gold ingots to deposit.");
                     }

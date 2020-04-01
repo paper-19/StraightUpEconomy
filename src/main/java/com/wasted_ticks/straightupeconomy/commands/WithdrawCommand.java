@@ -44,7 +44,7 @@ public class WithdrawCommand implements CommandExecutor {
                             player.sendMessage(ChatColor.LIGHT_PURPLE + "Unable to fill full transaction cost, try cleaning your inventory.");
                         }
                         double balance = plugin.getEconomy().getBalance(player);
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Your current balance is: $" + balance);
+                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Your current balance is: " + balance + " ꜷ");
                     } else {
                         player.sendMessage(ChatColor.LIGHT_PURPLE + "You must have sufficient gold ingots to withdraw.");
                     }
