@@ -1,6 +1,7 @@
 package com.wasted_ticks.straightupeconomy.commands;
 
 import com.wasted_ticks.straightupeconomy.StraightUpEconomy;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,14 +26,19 @@ public class BalanceCommand implements CommandExecutor {
 
             Player player = (Player) sender;
 
-            if(!player.hasPermission("economy.balance")){
-                player.sendMessage(ChatColor.LIGHT_PURPLE + "You must have permissions to use this command.");
-                return true;
-            }
-
-
             if(args.length != 0) {
-                player.sendMessage(ChatColor.DARK_PURPLE + "Usage:" + ChatColor.LIGHT_PURPLE + command.getUsage());
+                if(args.length == 1 && player.isOp()) {
+                    String playerName = args[0];
+                    if(null != Bukkit.getPlayer(playerName)) {
+                        Player target = Bukkit.getPlayer(playerName);
+                        double balance = plugin.getEconomy().getBalance(target);
+                        player.sendMessage(ChatColor.LIGHT_PURPLE + target.getDisplayName() + "'s balance is: $" + balance);
+                    } else {
+                        player.sendMessage(ChatColor.DARK_PURPLE + "Unable to resolve selected player.");
+                    }
+                } else {
+                    player.sendMessage(ChatColor.DARK_PURPLE + "Usage:" + ChatColor.LIGHT_PURPLE + command.getUsage());
+                }
             } else {
                 double balance = plugin.getEconomy().getBalance(player);
                 player.sendMessage(ChatColor.LIGHT_PURPLE + "Your current balance is: $" + balance);

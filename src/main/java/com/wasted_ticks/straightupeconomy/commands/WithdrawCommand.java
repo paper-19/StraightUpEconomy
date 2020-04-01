@@ -26,12 +26,6 @@ public class WithdrawCommand implements CommandExecutor {
 
             Player player = (Player) sender;
 
-            if(!player.hasPermission("economy.withdraw")){
-                player.sendMessage(ChatColor.LIGHT_PURPLE + "You must have permissions to use this command.");
-                return true;
-            }
-
-
             if (args.length != 1) {
                 player.sendMessage(command.getUsage());
             } else {
