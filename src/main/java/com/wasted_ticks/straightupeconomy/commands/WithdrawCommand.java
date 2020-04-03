@@ -32,7 +32,7 @@ public class WithdrawCommand implements CommandExecutor {
                 try {
                     int amount = Integer.parseInt(args[0]);
                     if(amount < 1) {
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Invalid amount requested to withdraw.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "Invalid amount requested to withdraw.");
                         return true;
                     }
                     if(this.plugin.getEconomy().has(player, amount)) {
@@ -41,15 +41,16 @@ public class WithdrawCommand implements CommandExecutor {
                         if(!stack.isEmpty()) {
                             int refund = stack.get(0).getAmount();
                             this.plugin.getEconomy().depositPlayer(player, refund);
-                            player.sendMessage(ChatColor.LIGHT_PURPLE + "Unable to fill full transaction cost, try cleaning your inventory.");
+                            player.sendMessage(ChatColor.DARK_GRAY + "Unable to fill full transaction cost, try cleaning your inventory.");
                         }
                         double balance = plugin.getEconomy().getBalance(player);
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Your current balance is: " + balance + " ꜷ");
+                        player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Au");
                     } else {
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "You must have sufficient gold ingots to withdraw.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "You must have sufficient gold ingots to withdraw.");
                     }
                 } catch (NumberFormatException e) {
-                    player.sendMessage(ChatColor.DARK_PURPLE + "Usage:" + ChatColor.LIGHT_PURPLE + command.getUsage());
+                    player.sendMessage(ChatColor.DARK_GRAY + "Unable to parse integer.");
+                    player.sendMessage(ChatColor.DARK_GRAY + "Usage:" + ChatColor.DARK_GRAY + command.getUsage());
                 }
             }
         }

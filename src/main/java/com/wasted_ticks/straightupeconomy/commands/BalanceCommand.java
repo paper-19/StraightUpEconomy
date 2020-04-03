@@ -32,16 +32,18 @@ public class BalanceCommand implements CommandExecutor {
                     if(null != Bukkit.getPlayer(playerName)) {
                         Player target = Bukkit.getPlayer(playerName);
                         double balance = plugin.getEconomy().getBalance(target);
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + target.getDisplayName() + "'s balance is: " + balance + " ꜷ");
+                        player.sendMessage(ChatColor.DARK_GRAY + target.getDisplayName() + "'s balance is: " + balance + " Au");
                     } else {
-                        player.sendMessage(ChatColor.DARK_PURPLE + "Unable to resolve selected player.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "Unable to resolve selected player.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "Usage:" + ChatColor.LIGHT_PURPLE + command.getUsage());
                     }
                 } else {
-                    player.sendMessage(ChatColor.DARK_PURPLE + "Usage:" + ChatColor.LIGHT_PURPLE + command.getUsage());
+                    player.sendMessage(ChatColor.DARK_GRAY + "Invalid amount of arguments provided.");
+                    player.sendMessage(ChatColor.DARK_GRAY + "Usage:" + ChatColor.DARK_GRAY + command.getUsage());
                 }
             } else {
                 double balance = plugin.getEconomy().getBalance(player);
-                player.sendMessage(ChatColor.LIGHT_PURPLE + "Your current balance is: " + balance + " ꜷ");
+                player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Au");
             }
         }
         return true;

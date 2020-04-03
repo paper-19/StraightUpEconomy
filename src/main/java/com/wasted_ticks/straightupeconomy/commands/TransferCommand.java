@@ -28,14 +28,14 @@ public class TransferCommand implements CommandExecutor {
 
                     int amount = Integer.parseInt(args[1]);
                     if (amount < 1) {
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Invalid amount requested to transfer.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "Invalid amount requested to transfer.");
                         return true;
                     }
 
                     String requestedPlayerName = args[0];
                     Player requestedPlayer = plugin.getServer().getPlayer(requestedPlayerName);
                     if(requestedPlayer == null) {
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "Unable to find player: " + requestedPlayerName);
+                        player.sendMessage(ChatColor.DARK_GRAY + "Unable to find player: " + requestedPlayerName);
                         return true;
                     }
 
@@ -48,19 +48,22 @@ public class TransferCommand implements CommandExecutor {
 
                         if(player.isOp()) {
                             double balance = plugin.getEconomy().getBalance(requestedPlayer);
-                            player.sendMessage(ChatColor.LIGHT_PURPLE + "Deposited $" + amount + " into player account: "+ requestedPlayerName);
-                            player.sendMessage(ChatColor.LIGHT_PURPLE + "Their current balance is: " + balance + " ꜷ");
+                            if(requestedPlayer.isOnline()) {
+                                requestedPlayer.sendMessage(ChatColor.DARK_GRAY + player.getName() + " transferred " + amount + " Au into your account.");
+                            }
+                            player.sendMessage(ChatColor.DARK_GRAY + "Deposited " + amount + " Au into player account: "+ requestedPlayerName);
+                            player.sendMessage(ChatColor.DARK_GRAY + "Their current balance is: " + balance + " Au");
                         } else {
                             double balance = plugin.getEconomy().getBalance(player);
-                            player.sendMessage(ChatColor.LIGHT_PURPLE + "Your current balance is: " + balance + " ꜷ");
+                            player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Au");
                         }
                     } else {
-                        player.sendMessage(ChatColor.LIGHT_PURPLE + "You must have sufficient gold ingots to transfer.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "You must have sufficient gold ingots to transfer.");
                     }
 
                 } catch (NumberFormatException e) {
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Unable to parse integer.");
-                    player.sendMessage(ChatColor.DARK_PURPLE + "Usage:" + ChatColor.LIGHT_PURPLE + command.getUsage());
+                    player.sendMessage(ChatColor.DARK_GRAY + "Unable to parse integer.");
+                    player.sendMessage(ChatColor.DARK_GRAY + "Usage:" + ChatColor.DARK_GRAY + command.getUsage());
                 }
             }
         }

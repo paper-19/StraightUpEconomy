@@ -2,6 +2,7 @@ package com.wasted_ticks.straightupeconomy;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.UUID;
 
 public class StorageManager {
@@ -28,24 +29,35 @@ public class StorageManager {
     }
 
     public static void createAccount(UUID uniqueId) {
-        String query = "INSERT INTO 'sus__economy_accounts' (mojang_uuid, balance) "
-                    + " VALUES ('" + uniqueId + "', 0.0); ";
+        Date date = new Date();
+        String query = "INSERT INTO 'sus__economy_accounts' (mojang_uuid, balance, date_created) "
+                    + " VALUES ('" + uniqueId + "', 0.0, '"+ date.toInstant().toString() + "'); ";
         core.execute(query);
     }
 
     public static void withdraw(UUID uniqueId, double amount) {
         double balance = getBalance(uniqueId);
         double newBalance = balance - amount;
+        Date date = new Date();
 
-        String query = "UPDATE 'sus__economy_accounts' SET balance = " + newBalance + " WHERE mojang_uuid = '" + uniqueId.toString() + "';";
+        String query = "UPDATE 'sus__economy_accounts' SET" +
+                " balance = " + newBalance +
+                ", last_withdraw_value = " + amount +
+                ", last_withdraw_date = '" + date.toInstant().toString() + "'"
+                + " WHERE mojang_uuid = '" + uniqueId.toString() + "';";
         core.execute(query);
     }
 
     public static void deposit(UUID uniqueId, double amount) {
         double balance = getBalance(uniqueId);
         double newBalance = balance + amount;
+        Date date = new Date();
 
-        String query = "UPDATE 'sus__economy_accounts' SET balance = " + newBalance + " WHERE mojang_uuid = '" + uniqueId.toString() + "';";
+        String query = "UPDATE 'sus__economy_accounts' SET" +
+                " balance = " + newBalance +
+                ", last_deposit_value = " + amount +
+                ", last_deposit_date = '" + date.toInstant().toString() + "'"
+                +" WHERE mojang_uuid = '" + uniqueId.toString() + "';";
         core.execute(query);
     }
 
