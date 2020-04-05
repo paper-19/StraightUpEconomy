@@ -30,7 +30,9 @@ public final class StraightUpEconomy extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        logger.info("["+ this.getName() + "] Closing connection.");
         storageManager.closeConnection();
+        logger.info("["+ this.getName() + "] Connection closed.");
     }
 
     @Override

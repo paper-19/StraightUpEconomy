@@ -15,24 +15,42 @@ public class StorageManager {
         this.initiate();
     }
 
-    public static double getBalance(UUID uniqueId) {
+    public static boolean hasAccount(UUID uniqueId) {
+        boolean hasAccount = false;
         String query = "SELECT * FROM 'sus__economy_accounts' WHERE mojang_uuid = '" + uniqueId.toString() + "';";
         ResultSet rs = core.executeQuery(query);
         if(rs != null) {
             try {
                 if (rs.next()) {
-                    return rs.getDouble("balance");
+                    hasAccount = true;
                 }
+                rs.close();
             } catch(SQLException e) { }
         }
-        return 0.0;
+        return hasAccount;
+    }
+
+    public static double getBalance(UUID uniqueId) {
+        double balance = 0.0;
+        String query = "SELECT * FROM 'sus__economy_accounts' WHERE mojang_uuid = '" + uniqueId.toString() + "';";
+        ResultSet rs = core.executeQuery(query);
+        if(rs != null) {
+            try {
+                if (rs.next()) {
+                    balance = rs.getDouble("balance");
+                }
+                rs.close();
+            } catch(SQLException e) { }
+        }
+        return balance;
     }
 
     public static void createAccount(UUID uniqueId) {
         Date date = new Date();
         String query = "INSERT INTO 'sus__economy_accounts' (mojang_uuid, balance, date_created) "
                     + " VALUES ('" + uniqueId + "', 0.0, '"+ date.toInstant().toString() + "'); ";
-        core.execute(query);
+        core.executeUpdate(query);
+
     }
 
     public static void withdraw(UUID uniqueId, double amount) {
@@ -45,7 +63,8 @@ public class StorageManager {
                 ", last_withdraw_value = " + amount +
                 ", last_withdraw_date = '" + date.toInstant().toString() + "'"
                 + " WHERE mojang_uuid = '" + uniqueId.toString() + "';";
-        core.execute(query);
+        core.executeUpdate(query);
+
     }
 
     public static void deposit(UUID uniqueId, double amount) {
@@ -58,7 +77,8 @@ public class StorageManager {
                 ", last_deposit_value = " + amount +
                 ", last_deposit_date = '" + date.toInstant().toString() + "'"
                 +" WHERE mojang_uuid = '" + uniqueId.toString() + "';";
-        core.execute(query);
+
+        core.executeUpdate(query);
     }
 
     public void initiate() {
@@ -75,7 +95,7 @@ public class StorageManager {
                             + " `last_withdraw_value` double(64,2), "
                             + " `last_withdraw_date` TEXT, "
                             + " PRIMARY KEY (`mojang_uuid`));";
-                core.execute(query);
+                core.executeUpdate(query);
             }
         }
     }
@@ -83,19 +103,4 @@ public class StorageManager {
     public void closeConnection() {
         core.close();
     }
-    
-
-    public static boolean hasAccount(UUID uniqueId) {
-        String query = "SELECT * FROM 'sus__economy_accounts' WHERE mojang_uuid = '" + uniqueId.toString() + "';";
-        ResultSet rs = core.executeQuery(query);
-        if(rs != null) {
-            try {
-                if (rs.next()) {
-                    return true;
-                }
-            } catch(SQLException e) { }
-        }
-        return false;
-    }
-
 }

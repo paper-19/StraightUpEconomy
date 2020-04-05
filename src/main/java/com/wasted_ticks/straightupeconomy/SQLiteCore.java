@@ -1,10 +1,7 @@
 package com.wasted_ticks.straightupeconomy;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Logger;
 
 public class SQLiteCore {
@@ -51,22 +48,12 @@ public class SQLiteCore {
             try {
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.severe("Failed to close database connection! " + e.getMessage());
             }
         }
     }
 
-    public Boolean execute(String query) {
-        try {
-            this.getConnection().createStatement().execute(query);
-            return true;
-        } catch (SQLException ex) {
-            log.severe("Failed to execute query : ||| " + query + " |||");
-            return null;
-        }
-    }
-
-    public Boolean existsTable(String table) {
+    public boolean existsTable(String table) {
         try {
             ResultSet tables = getConnection().getMetaData().getTables(null, null, table, null);
             return tables.next();
@@ -75,13 +62,25 @@ public class SQLiteCore {
         }
     }
 
+    public boolean executeUpdate(String query) {
+        Statement statement = null;
+        try {
+            statement = this.getConnection().createStatement();
+            statement.executeUpdate(query);
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            log.severe("Failed to execute non-select : ||| " + query + " |||");
+            return false;
+        }
+    }
+
 
     public ResultSet executeQuery(String query) {
         try {
-            ResultSet rs = getConnection().createStatement().executeQuery(query);
-            return rs;
+            return getConnection().createStatement().executeQuery(query);
         } catch (SQLException ex) {
-            log.severe("Failed to execute query : ||| " + query + " |||");
+            log.severe("Failed to execute select : ||| " + query + " |||");
         }
         return null;
 
