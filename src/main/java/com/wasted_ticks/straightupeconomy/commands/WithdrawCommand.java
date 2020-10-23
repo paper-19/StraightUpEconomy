@@ -37,16 +37,16 @@ public class WithdrawCommand implements CommandExecutor {
                     }
                     if(this.plugin.getEconomy().has(player, amount)) {
                         this.plugin.getEconomy().withdrawPlayer(player, amount);
-                        HashMap<Integer, ItemStack> stack = player.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, amount));
+                        HashMap<Integer, ItemStack> stack = player.getInventory().addItem(new ItemStack(Material.LAPIS_LAZULI, amount));
                         if(!stack.isEmpty()) {
                             int refund = stack.get(0).getAmount();
                             this.plugin.getEconomy().depositPlayer(player, refund);
                             player.sendMessage(ChatColor.DARK_GRAY + "Unable to fill full transaction cost, try cleaning your inventory.");
                         }
                         double balance = plugin.getEconomy().getBalance(player);
-                        player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Au");
+                        player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Lapis");
                     } else {
-                        player.sendMessage(ChatColor.DARK_GRAY + "You must have sufficient gold ingots to withdraw.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "You must have sufficient lapis to withdraw.");
                     }
                 } catch (NumberFormatException e) {
                     player.sendMessage(ChatColor.DARK_GRAY + "Unable to parse integer.");

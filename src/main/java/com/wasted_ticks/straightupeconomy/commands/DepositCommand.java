@@ -35,13 +35,13 @@ public class DepositCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.DARK_GRAY + "Invalid amount requested to deposit.");
                         return true;
                     }
-                    if(player.getInventory().containsAtLeast(new ItemStack(Material.GOLD_INGOT), amount)){
-                        this.removeItems(player.getInventory(),Material.GOLD_INGOT, amount);
+                    if(player.getInventory().containsAtLeast(new ItemStack(Material.LAPIS_LAZULI), amount)){
+                        this.removeItems(player.getInventory(),Material.LAPIS_LAZULI, amount);
                         plugin.getEconomy().depositPlayer(player, (double) amount);
                         double balance = plugin.getEconomy().getBalance(player);
-                        player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Au");
+                        player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Lapis");
                     } else {
-                        player.sendMessage(ChatColor.DARK_GRAY + "You must have sufficient gold ingots to deposit.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "You must have sufficient lapis to deposit.");
                     }
                 } catch (NumberFormatException e) {
                     player.sendMessage(ChatColor.DARK_GRAY + "Unable to parse integer.");

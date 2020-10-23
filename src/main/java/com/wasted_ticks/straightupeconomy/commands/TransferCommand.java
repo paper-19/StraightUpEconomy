@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 public class TransferCommand implements CommandExecutor {
 
     private final StraightUpEconomy plugin;
@@ -43,22 +42,22 @@ public class TransferCommand implements CommandExecutor {
 
                         if(!player.isOp()) {
                             this.plugin.getEconomy().withdrawPlayer(player, amount);
+                            double balance = plugin.getEconomy().getBalance(player);
+                            player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Lapis");
+
                         }
                         this.plugin.getEconomy().depositPlayer(requestedPlayer, amount);
+                        if(requestedPlayer.isOnline()) {
+                            requestedPlayer.sendMessage(ChatColor.DARK_GRAY + player.getName() + " transferred " + amount + " Lapis into your account.");
+                        }
 
                         if(player.isOp()) {
                             double balance = plugin.getEconomy().getBalance(requestedPlayer);
-                            if(requestedPlayer.isOnline()) {
-                                requestedPlayer.sendMessage(ChatColor.DARK_GRAY + player.getName() + " transferred " + amount + " Au into your account.");
-                            }
-                            player.sendMessage(ChatColor.DARK_GRAY + "Deposited " + amount + " Au into player account: "+ requestedPlayerName);
-                            player.sendMessage(ChatColor.DARK_GRAY + "Their current balance is: " + balance + " Au");
-                        } else {
-                            double balance = plugin.getEconomy().getBalance(player);
-                            player.sendMessage(ChatColor.DARK_GRAY + "Your current balance is: " + balance + " Au");
+                            player.sendMessage(ChatColor.DARK_GRAY + "Deposited " + amount + " Lapis into player account: "+ requestedPlayerName);
+                            player.sendMessage(ChatColor.DARK_GRAY + "Their current balance is: " + balance + " Lapis");
                         }
                     } else {
-                        player.sendMessage(ChatColor.DARK_GRAY + "You must have sufficient gold ingots to transfer.");
+                        player.sendMessage(ChatColor.DARK_GRAY + "You must have sufficient lapis to transfer.");
                     }
 
                 } catch (NumberFormatException e) {
